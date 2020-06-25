@@ -26,8 +26,11 @@ public class SpreadController {
     private final SpreadService spreadService;
 
     @GetMapping("/{token}")
-    public ResponseVO 조회(@PathVariable String token) {
+    public ResponseVO 조회(@RequestHeader(value = SpreadCode.X_USER_ID) String userId,
+                         @RequestHeader(value = SpreadCode.X_ROOM_ID) String roomId,
+                         @PathVariable String token) {
         log.info("test {}", 1);
+        spreadService.find(roomId, token);
         return ResponseVO.builder().code("200").build();
     }
 
@@ -40,7 +43,7 @@ public class SpreadController {
                 .userId(userId)
                 .roomId(roomId)
                 .count(spreadCreateRequestVO.getCount())
-                .price(spreadCreateRequestVO.getPrice())
+                .money(spreadCreateRequestVO.getMoney())
                 .build();
 
         spreadService.create(spread);
@@ -48,8 +51,7 @@ public class SpreadController {
         log.info("token : {}", spread.getToken());
 
         return SpreadCreateResponseVO.builder()
-                .code("200")
-                .token("test")
+                .token(spread.getToken())
                 .build();
     }
 

@@ -2,9 +2,12 @@ package com.demo.demo20200625.spread.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +18,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@EntityListeners(AuditingEntityListener.class)
 public class SpreadDetail {
 
     @Id
@@ -25,19 +29,16 @@ public class SpreadDetail {
     private Spread spread;
 
     @Version
-    @Column
     private int version;
 
-    @Column
     private int money;
 
-    @Column
     private boolean gave;
 
-    @Column
+    @CreatedDate
     private LocalDateTime createDate;
 
-    @Column
-    private LocalDateTime updateDate;
+    @LastModifiedDate
+    private LocalDateTime modifiedDate;
 
 }

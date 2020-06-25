@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SpreadRepository extends JpaRepository<Spread, String> {
 
+    Spread findByRoomIdAndToken(String roomId, String token);
 }

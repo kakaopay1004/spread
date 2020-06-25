@@ -2,6 +2,7 @@ package com.demo.demo20200625.spread.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -23,6 +24,7 @@ import java.util.List;
 @Entity
 @Getter
 @EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
 public class Spread {
 
     @Id
@@ -35,7 +37,7 @@ public class Spread {
     @Column(nullable = false)
     private String roomId;
 
-    private int price;
+    private int money;
 
     private int count;
 
@@ -43,7 +45,7 @@ public class Spread {
     @Column(nullable = false)
     private String token;
 
-    @OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<SpreadDetail> spreadDetails = new ArrayList<>();
 
     @CreatedDate
@@ -53,10 +55,10 @@ public class Spread {
     private LocalDateTime modifiedDate;
 
     @Builder
-    public Spread(String userId, String roomId, int price, int count) {
+    public Spread(String userId, String roomId, int money, int count) {
         this.userId = userId;
         this.roomId = roomId;
-        this.price = price;
+        this.money = money;
         this.count = count;
     }
 

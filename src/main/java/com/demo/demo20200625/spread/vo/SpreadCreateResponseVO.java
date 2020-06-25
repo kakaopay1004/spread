@@ -1,19 +1,19 @@
 package com.demo.demo20200625.spread.vo;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SpreadCreateResponseVO {
 
-    private String code;
+    @Builder.Default
+    private String code = "200";
     private String token;
 
-    @Builder
-    public SpreadCreateResponseVO(String code, String token) {
-        this.code = code;
-        this.token = token;
-    }
 }
