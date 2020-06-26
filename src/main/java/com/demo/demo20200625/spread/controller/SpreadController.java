@@ -63,8 +63,6 @@ public class SpreadController {
 
         spreadService.create(spread);
 
-        log.info("token : {}", spread.getToken());
-
         return SpreadCreateResponseVO.builder()
                 .token(spread.getToken())
                 .build();
