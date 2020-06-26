@@ -1,15 +1,15 @@
 
 
 ##
-GET localhost:8080/kakaopay/spread/ta2
+GET localhost:8080/kakaopay/spread/Goz
 Content-Type: application/json
 X-USER-ID: 1004
 X-ROOM-ID: room-1004-01
 
 ###
-PUT localhost:8080/kakaopay/spread/ta2
+PUT localhost:8080/kakaopay/spread/Goz
 Content-Type: application/json
-X-USER-ID: 3882
+X-USER-ID: 3333
 X-ROOM-ID: room-1004-01
 
 ###
