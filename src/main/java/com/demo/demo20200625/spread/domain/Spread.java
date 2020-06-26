@@ -32,7 +32,7 @@ public class Spread {
     private Long id;
 
     @Column(nullable = false)
-    private String userId;
+    private Long userId;
 
     @Column(nullable = false)
     private String roomId;
@@ -55,7 +55,7 @@ public class Spread {
     private LocalDateTime modifiedDate;
 
     @Builder
-    public Spread(String userId, String roomId, int money, int count) {
+    public Spread(Long userId, String roomId, int money, int count) {
         this.userId = userId;
         this.roomId = roomId;
         this.money = money;

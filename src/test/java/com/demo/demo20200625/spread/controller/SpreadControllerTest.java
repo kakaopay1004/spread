@@ -5,6 +5,7 @@ import com.demo.demo20200625.spread.code.SpreadCode;
 import com.demo.demo20200625.spread.vo.ResponseVO;
 import com.demo.demo20200625.spread.vo.SpreadCreateRequestVO;
 import com.demo.demo20200625.spread.vo.SpreadCreateResponseVO;
+import com.demo.demo20200625.spread.vo.SpreadSearchResponseVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +37,17 @@ class SpreadControllerTest {
 
     @Test
     void 조회() throws Exception {
-        MvcResult result = mockMvc.perform(get("/kakaopay/spread/B2V")
+        MvcResult result = mockMvc.perform(get("/kakaopay/spread/tz6")
                 .header(SpreadCode.X_USER_ID, "1004")
-                .header(SpreadCode.X_ROOM_ID, "room1004")
+                .header(SpreadCode.X_ROOM_ID, "room-1004-02")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        ResponseVO responseVO = objectMapper.readValue(result.getResponse().getContentAsString(), ResponseVO.class);
-
-        assertEquals(responseVO.getCode(), "200");
+        SpreadSearchResponseVO responseVO = objectMapper.readValue(result.getResponse().getContentAsString(), SpreadSearchResponseVO.class);
+        responseVO.getGiveMoney();
     }
 
     @Test

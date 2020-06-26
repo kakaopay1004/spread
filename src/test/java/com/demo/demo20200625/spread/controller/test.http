@@ -6,7 +6,7 @@ GET localhost:8080/kakaopay/spread
 ###
 POST localhost:8080/kakaopay/spread
 Content-Type: application/json
-X-USER-ID: 486
+X-USER-ID: 1004
 X-ROOM-ID: room-1004-02
 
 {

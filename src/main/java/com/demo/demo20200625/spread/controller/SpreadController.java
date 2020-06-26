@@ -2,10 +2,13 @@ package com.demo.demo20200625.spread.controller;
 
 import com.demo.demo20200625.spread.code.SpreadCode;
 import com.demo.demo20200625.spread.domain.Spread;
+import com.demo.demo20200625.spread.service.SpreadDetailService;
 import com.demo.demo20200625.spread.service.SpreadService;
+import com.demo.demo20200625.spread.vo.GaveUserVO;
 import com.demo.demo20200625.spread.vo.ResponseVO;
 import com.demo.demo20200625.spread.vo.SpreadCreateRequestVO;
 import com.demo.demo20200625.spread.vo.SpreadCreateResponseVO;
+import com.demo.demo20200625.spread.vo.SpreadSearchResponseVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -24,18 +30,27 @@ import org.springframework.web.bind.annotation.RestController;
 public class SpreadController {
 
     private final SpreadService spreadService;
+    private final SpreadDetailService spreadDetailService;
 
     @GetMapping("/{token}")
-    public ResponseVO 조회(@RequestHeader(value = SpreadCode.X_USER_ID) String userId,
-                         @RequestHeader(value = SpreadCode.X_ROOM_ID) String roomId,
-                         @PathVariable String token) {
-        log.info("test {}", 1);
-        spreadService.find(roomId, token);
-        return ResponseVO.builder().code("200").build();
+    public SpreadSearchResponseVO 조회(@RequestHeader(value = SpreadCode.X_USER_ID) Long userId,
+                                     @RequestHeader(value = SpreadCode.X_ROOM_ID) String roomId,
+                                     @PathVariable String token) {
+
+        Spread spread = spreadService.find(roomId, token);
+        List<GaveUserVO> list = spreadDetailService.findGaveUsers(spread.getId());
+        int giveMoney = list.stream().mapToInt(GaveUserVO::getMoney).sum();
+
+        return SpreadSearchResponseVO.builder()
+                .spreadDate(spread.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .money(spread.getMoney())
+                .giveMoney(giveMoney)
+                .receivedUsers(list)
+                .build();
     }
 
     @PostMapping
-    public SpreadCreateResponseVO 뿌리기(@RequestHeader(value = SpreadCode.X_USER_ID) String userId,
+    public SpreadCreateResponseVO 뿌리기(@RequestHeader(value = SpreadCode.X_USER_ID) Long userId,
                                       @RequestHeader(value = SpreadCode.X_ROOM_ID) String roomId,
                                       @RequestBody SpreadCreateRequestVO spreadCreateRequestVO) {
 

@@ -71,8 +71,7 @@ public class SpreadService {
         return stringbuilder.toString();
     }
 
-    public void find(String roomId, String token) {
-        Spread spread = spreadRepository.findByRoomIdAndToken(roomId, token);
-        log.info("spread : {}", spread);
+    public Spread find(String roomId, String token) {
+        return spreadRepository.findByRoomIdAndToken(roomId, token);
     }
 }
