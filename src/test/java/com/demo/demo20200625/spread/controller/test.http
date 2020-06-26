@@ -7,11 +7,23 @@ GET localhost:8080/kakaopay/spread
 POST localhost:8080/kakaopay/spread
 Content-Type: application/json
 X-USER-ID: 1004
-X-ROOM-ID: room-1004-02
+X-ROOM-ID: room-1004-01
 
 {
-  "money": "105",
+  "money": "10000",
   "count": "5"
 }
 
 ###
+POST localhost:8080/kakaopay/spread
+Content-Type: application/json
+X-USER-ID: 486
+X-ROOM-ID: room-486-02
+
+{
+  "money": "9999",
+  "count": "100"
+}
+
+###
+

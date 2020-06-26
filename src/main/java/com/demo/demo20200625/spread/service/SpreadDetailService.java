@@ -21,7 +21,7 @@ public class SpreadDetailService {
         List<SpreadDetail> spreadDetails = spreadDetailRepository.findBySpreadIdAndGaveTrue(spreadId);
         List<GaveUserVO> gaveUsers = new ArrayList<>();
 
-        spreadDetails.forEach(row -> {
+        spreadDetails.stream().forEach(row -> {
             GaveUserVO gaveUserVO  = GaveUserVO.builder()
                     .userId(row.getUserId())
                     .money(row.getMoney())

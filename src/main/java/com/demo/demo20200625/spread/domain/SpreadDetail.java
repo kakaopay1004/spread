@@ -38,6 +38,8 @@ public class SpreadDetail {
 
     private boolean gave;
 
+    private LocalDateTime gaveDate;
+
     @CreatedDate
     private LocalDateTime createDate;
 

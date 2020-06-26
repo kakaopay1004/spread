@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
@@ -12,8 +11,6 @@ import lombok.Setter;
 @Builder
 public class SpreadCreateResponseVO {
 
-    @Builder.Default
-    private String code = "200";
     private String token;
 
 }

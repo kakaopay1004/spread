@@ -2,6 +2,7 @@ package com.demo.demo20200625.spread.service;
 
 import com.demo.demo20200625.spread.domain.Spread;
 import com.demo.demo20200625.spread.domain.SpreadDetail;
+import com.demo.demo20200625.spread.exception.HttpNotFoundException;
 import com.demo.demo20200625.spread.repository.SpreadRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -72,6 +73,7 @@ public class SpreadService {
     }
 
     public Spread findByRoomIdAndToken(String roomId, String token) {
-        return spreadRepository.findByRoomIdAndToken(roomId, token);
+        return spreadRepository.findByRoomIdAndToken(roomId, token)
+                .orElseThrow(HttpNotFoundException::new);
     }
 }

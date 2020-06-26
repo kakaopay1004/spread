@@ -1,9 +1,6 @@
 package com.demo.demo20200625.spread.controller;
 
-import com.demo.demo20200625.spread.Demo20200625Application;
 import com.demo.demo20200625.spread.code.SpreadCode;
-import com.demo.demo20200625.spread.exception.ErrorResponseVO;
-import com.demo.demo20200625.spread.vo.ResponseVO;
 import com.demo.demo20200625.spread.vo.SpreadCreateRequestVO;
 import com.demo.demo20200625.spread.vo.SpreadCreateResponseVO;
 import com.demo.demo20200625.spread.vo.SpreadSearchResponseVO;
@@ -39,9 +36,9 @@ class SpreadControllerTest {
 
     @Test
     void 조회() throws Exception {
-        MvcResult result = mockMvc.perform(get("/kakaopay/spread/tz6")
-                .header(SpreadCode.X_USER_ID, "1004")
-                .header(SpreadCode.X_ROOM_ID, "room-1004-02")
+        MvcResult result = mockMvc.perform(get("/kakaopay/spread/w2E")
+                .header(SpreadCode.X_USER_ID, "486")
+                .header(SpreadCode.X_ROOM_ID, "room-486-02")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -49,23 +46,33 @@ class SpreadControllerTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         SpreadSearchResponseVO responseVO = objectMapper.readValue(result.getResponse().getContentAsString(), SpreadSearchResponseVO.class);
-        assertEquals(responseVO.getCode(), 200);
-        assertEquals(responseVO.getMoney(), 105);
+        assertTrue(responseVO.getReceivedUsers().isEmpty());
+    }
+
+    @Test
+    void 조회_결과가없는경우() throws Exception {
+
+        mockMvc.perform(get("/kakaopay/spread/aaa")
+                .header(SpreadCode.X_USER_ID, "1004")
+                .header(SpreadCode.X_ROOM_ID, "room-486-02")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andReturn();
+
     }
 
     @Test
     void 조회_작성자가_아닌경우() throws Exception {
-        MvcResult result = mockMvc.perform(get("/kakaopay/spread/tz6")
-                .header(SpreadCode.X_USER_ID, "10533")
-                .header(SpreadCode.X_ROOM_ID, "room-1004-02")
+
+        mockMvc.perform(get("/kakaopay/spread/w2E")
+                .header(SpreadCode.X_USER_ID, "1004")
+                .header(SpreadCode.X_ROOM_ID, "room-486-02")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isUnauthorized())
                 .andReturn();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        SpreadSearchResponseVO responseVO = objectMapper.readValue(result.getResponse().getContentAsString(), SpreadSearchResponseVO.class);
-        assertEquals(responseVO.getCode(), 901);
     }
 
     @Test
