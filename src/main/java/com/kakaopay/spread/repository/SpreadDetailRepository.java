@@ -15,7 +15,7 @@ public interface SpreadDetailRepository extends JpaRepository<SpreadDetail, Long
             + " JOIN Spread_Detail d "
             + "   ON s.id = d.spread_id"
             + " WHERE s.id = ?1 AND NVL(d.user_id, 0) <> ?2 "
-            + "   AND d.gave = false "
+            + "   AND d.receive = false "
             + " ORDER BY rand() LIMIT 1  ", nativeQuery = true)
     Optional<SpreadDetail> getReceiveTarget(Long spreadId, Long userId);
 

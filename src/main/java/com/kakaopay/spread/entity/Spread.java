@@ -55,11 +55,12 @@ public class Spread {
     private LocalDateTime modifiedDate;
 
     @Builder
-    public Spread(Long userId, String roomId, int money, int count) {
+    public Spread(Long userId, String roomId, int money, int count, String token) {
         this.userId = userId;
         this.roomId = roomId;
         this.money = money;
         this.count = count;
+        this.token = token;
     }
 
 }

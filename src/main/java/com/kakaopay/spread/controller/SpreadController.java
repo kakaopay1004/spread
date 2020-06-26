@@ -2,10 +2,13 @@ package com.kakaopay.spread.controller;
 
 import com.kakaopay.spread.code.SpreadCode;
 import com.kakaopay.spread.entity.Spread;
+import com.kakaopay.spread.exception.HttpBadRequestException;
 import com.kakaopay.spread.exception.HttpForbiddenException;
+import com.kakaopay.spread.exception.HttpNotAccepTableException;
 import com.kakaopay.spread.exception.HttpUnauthorizedException;
 import com.kakaopay.spread.service.SpreadDetailService;
 import com.kakaopay.spread.service.SpreadService;
+import com.kakaopay.spread.util.TokenUtil;
 import com.kakaopay.spread.vo.ReceiveResponseVO;
 import com.kakaopay.spread.vo.ReceiveUserVO;
 import com.kakaopay.spread.vo.SpreadCreateRequestVO;
@@ -34,6 +37,7 @@ public class SpreadController {
 
     private final SpreadService spreadService;
     private final SpreadDetailService spreadDetailService;
+    private final TokenUtil tokenUtil;
 
     @GetMapping("/{token}")
     public SpreadSearchResponseVO search(@RequestHeader(value = SpreadCode.X_USER_ID) Long userId,
@@ -43,7 +47,7 @@ public class SpreadController {
         Spread spread = spreadService.findByRoomIdAndToken(roomId, token);
 
         if (spread.getUserId().compareTo(userId) != 0L) {
-            throw new HttpUnauthorizedException();
+            throw new HttpNotAccepTableException();
         }
 
         LocalDateTime currentLocalDateTime = LocalDateTime.now();
@@ -74,6 +78,7 @@ public class SpreadController {
                 .roomId(roomId)
                 .count(spreadCreateRequestVO.getCount())
                 .money(spreadCreateRequestVO.getMoney())
+                .token(tokenUtil.createRandomToken())
                 .build();
 
         spreadService.create(spread);
@@ -89,6 +94,10 @@ public class SpreadController {
                                   @PathVariable String token) {
 
         Spread spread = spreadService.findByRoomIdAndToken(roomId, token);
+
+        if (spread.getUserId().equals(userId)) {
+            throw new HttpBadRequestException();
+        }
 
         if (spread.getCreateDate().plusMinutes(10).compareTo(LocalDateTime.now()) < 0) {
             throw new HttpUnauthorizedException();

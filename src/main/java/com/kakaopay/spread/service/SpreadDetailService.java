@@ -1,13 +1,13 @@
 package com.kakaopay.spread.service;
 
 import com.kakaopay.spread.entity.SpreadDetail;
-import com.kakaopay.spread.exception.HttpNotFoundException;
 import com.kakaopay.spread.repository.SpreadDetailRepository;
 import com.kakaopay.spread.vo.ReceiveUserVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,11 +40,11 @@ public class SpreadDetailService {
     public int giveMoney(Long spreadId, Long userId) {
 
         SpreadDetail spreadDetail = spreadDetailRepository.getReceiveTarget(spreadId, userId)
-                .orElseThrow(HttpNotFoundException::new);
+                .orElseThrow(EntityNotFoundException::new);
 
         spreadDetail.setUserId(userId);
         spreadDetail.setReceive(true);
-        spreadDetail.setGaveDate(LocalDateTime.now());
+        spreadDetail.setReceiveDate(LocalDateTime.now());
 
         spreadDetailRepository.save(spreadDetail);
 

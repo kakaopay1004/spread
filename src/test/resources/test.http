@@ -1,26 +1,26 @@
 
 
 ##
-GET localhost:8080/kakaopay/spread/Goz
+GET localhost:8080/kakaopay/spread/DT7
 Content-Type: application/json
 X-USER-ID: 1004
-X-ROOM-ID: room-1004-01
+X-ROOM-ID: room-1000-02
 
 ###
-PUT localhost:8080/kakaopay/spread/Goz
+PUT localhost:8080/kakaopay/spread/DT7
 Content-Type: application/json
-X-USER-ID: 3333
-X-ROOM-ID: room-1004-01
+X-USER-ID: 39283
+X-ROOM-ID: room-1000-02
 
 ###
 POST localhost:8080/kakaopay/spread
 Content-Type: application/json
 X-USER-ID: 1004
-X-ROOM-ID: room-1004-01
+X-ROOM-ID: room-1000-02
 
 {
-  "money": "10000",
-  "count": "5"
+  "money": "20000",
+  "count": "2"
 }
 
 ###
@@ -35,4 +35,13 @@ X-ROOM-ID: room-486-02
 }
 
 ###
+6Gb e96 9E6 J3D
+{
+  "timestamp": "2020-06-26T12:46:45.650+00:00",
+  "status": 403,
+  "error": "Forbidden",
+  "message": "",
+  "path": "/kakaopay/spread/kJ8"
+}
 
+###
