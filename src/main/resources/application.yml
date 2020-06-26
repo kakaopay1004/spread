@@ -11,8 +11,7 @@ spring:
         max-page-size: 100
 
   datasource:
-    url: jdbc:h2:file:./src/test/resources/kakaopaydb
-#    url: jdbc:h2:~/kakaopaydb
+    url: jdbc:h2:~/kakaopaydb
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
@@ -23,5 +22,9 @@ spring:
     hibernate:
       ddl-auto: none
 
-#logging:
-#  level:
+
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace

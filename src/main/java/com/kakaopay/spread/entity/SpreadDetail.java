@@ -12,7 +12,10 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import java.time.LocalDateTime;
 
@@ -20,6 +23,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
+@Table(indexes = {@Index(columnList = "user_id"), @Index(columnList = "spread_id")},
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"spread_id", "user_id"})})
 public class SpreadDetail {
 
     @Id
@@ -29,6 +34,7 @@ public class SpreadDetail {
     @ManyToOne
     private Spread spread;
 
+    @Column(name = "user_id")
     private Long userId;
 
     @Version

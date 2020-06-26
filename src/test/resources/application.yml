@@ -22,5 +22,8 @@ spring:
     hibernate:
       ddl-auto: none
 
-#logging:
-#  level:
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
