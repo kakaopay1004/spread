@@ -21,4 +21,7 @@ public class SpreadSearchResponseVO {
 
     private List<GaveUserVO> receivedUsers;
 
+    @Builder.Default
+    private int code = 200;
+
 }

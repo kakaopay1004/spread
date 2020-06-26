@@ -2,6 +2,7 @@ package com.demo.demo20200625.spread.controller;
 
 import com.demo.demo20200625.spread.Demo20200625Application;
 import com.demo.demo20200625.spread.code.SpreadCode;
+import com.demo.demo20200625.spread.exception.ErrorResponseVO;
 import com.demo.demo20200625.spread.vo.ResponseVO;
 import com.demo.demo20200625.spread.vo.SpreadCreateRequestVO;
 import com.demo.demo20200625.spread.vo.SpreadCreateResponseVO;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -47,7 +49,23 @@ class SpreadControllerTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         SpreadSearchResponseVO responseVO = objectMapper.readValue(result.getResponse().getContentAsString(), SpreadSearchResponseVO.class);
-        responseVO.getGiveMoney();
+        assertEquals(responseVO.getCode(), 200);
+        assertEquals(responseVO.getMoney(), 105);
+    }
+
+    @Test
+    void 조회_작성자가_아닌경우() throws Exception {
+        MvcResult result = mockMvc.perform(get("/kakaopay/spread/tz6")
+                .header(SpreadCode.X_USER_ID, "10533")
+                .header(SpreadCode.X_ROOM_ID, "room-1004-02")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        SpreadSearchResponseVO responseVO = objectMapper.readValue(result.getResponse().getContentAsString(), SpreadSearchResponseVO.class);
+        assertEquals(responseVO.getCode(), 901);
     }
 
     @Test
