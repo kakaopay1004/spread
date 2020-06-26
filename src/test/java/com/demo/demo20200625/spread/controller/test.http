@@ -1,7 +1,10 @@
 
 
 ##
-GET localhost:8080/kakaopay/spread
+GET localhost:8080/kakaopay/spread/CIT
+Content-Type: application/json
+X-USER-ID: 486
+X-ROOM-ID: room-486-02
 
 ###
 POST localhost:8080/kakaopay/spread

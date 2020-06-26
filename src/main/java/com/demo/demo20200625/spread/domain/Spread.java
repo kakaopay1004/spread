@@ -45,7 +45,7 @@ public class Spread {
     @Column(nullable = false)
     private String token;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "spread")
     private List<SpreadDetail> spreadDetails = new ArrayList<>();
 
     @CreatedDate

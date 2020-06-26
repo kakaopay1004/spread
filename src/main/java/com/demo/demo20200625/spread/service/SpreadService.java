@@ -73,7 +73,9 @@ public class SpreadService {
     }
 
     public Spread findByRoomIdAndToken(String roomId, String token) {
+
         return spreadRepository.findByRoomIdAndToken(roomId, token)
                 .orElseThrow(HttpNotFoundException::new);
     }
+
 }

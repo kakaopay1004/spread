@@ -5,6 +5,7 @@ import com.demo.demo20200625.spread.vo.SpreadCreateRequestVO;
 import com.demo.demo20200625.spread.vo.SpreadCreateResponseVO;
 import com.demo.demo20200625.spread.vo.SpreadSearchResponseVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,10 +17,10 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,7 +50,7 @@ class SpreadControllerTest {
         assertTrue(responseVO.getReceivedUsers().isEmpty());
     }
 
-    @Test
+    @Test()
     void 조회_결과가없는경우() throws Exception {
 
         mockMvc.perform(get("/kakaopay/spread/aaa")
@@ -95,7 +96,19 @@ class SpreadControllerTest {
                 .andReturn();
 
         SpreadCreateResponseVO responseVO = objectMapper.readValue(result.getResponse().getContentAsString(), SpreadCreateResponseVO.class);
-        assertTrue(responseVO.getToken().length() == 3);
+        assertEquals(StringUtils.length(responseVO.getToken()), 3);
 
+    }
+
+    @Test
+    public void test () throws Exception {
+        MvcResult result = mockMvc.perform(put("/kakaopay/spread/w2E")
+                .header(SpreadCode.X_USER_ID, "1002")
+                .header(SpreadCode.X_ROOM_ID, "room-486-02")
+                .contentType(MediaType.APPLICATION_JSON))
+//                .content(reqeustBody))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
     }
 }

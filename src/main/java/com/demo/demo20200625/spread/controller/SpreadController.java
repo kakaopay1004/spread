@@ -2,6 +2,7 @@ package com.demo.demo20200625.spread.controller;
 
 import com.demo.demo20200625.spread.code.SpreadCode;
 import com.demo.demo20200625.spread.domain.Spread;
+import com.demo.demo20200625.spread.exception.HttpForbiddenException;
 import com.demo.demo20200625.spread.exception.HttpUnauthorizedException;
 import com.demo.demo20200625.spread.service.SpreadDetailService;
 import com.demo.demo20200625.spread.service.SpreadService;
@@ -35,9 +36,9 @@ public class SpreadController {
     private final SpreadDetailService spreadDetailService;
 
     @GetMapping("/{token}")
-    public SpreadSearchResponseVO 조회(@RequestHeader(value = SpreadCode.X_USER_ID) Long userId,
-                                     @RequestHeader(value = SpreadCode.X_ROOM_ID) String roomId,
-                                     @PathVariable String token) {
+    public SpreadSearchResponseVO search(@RequestHeader(value = SpreadCode.X_USER_ID) Long userId,
+                                         @RequestHeader(value = SpreadCode.X_ROOM_ID) String roomId,
+                                         @PathVariable String token) {
 
         Spread spread = getSpread(userId, roomId, token);
 
@@ -74,9 +75,9 @@ public class SpreadController {
     }
 
     @PostMapping
-    public SpreadCreateResponseVO 뿌리기(@RequestHeader(value = SpreadCode.X_USER_ID) Long userId,
-                                      @RequestHeader(value = SpreadCode.X_ROOM_ID) String roomId,
-                                      @RequestBody SpreadCreateRequestVO spreadCreateRequestVO) {
+    public SpreadCreateResponseVO spread(@RequestHeader(value = SpreadCode.X_USER_ID) Long userId,
+                                         @RequestHeader(value = SpreadCode.X_ROOM_ID) String roomId,
+                                         @RequestBody SpreadCreateRequestVO spreadCreateRequestVO) {
 
         Spread spread = Spread.builder()
                 .userId(userId)
@@ -92,8 +93,22 @@ public class SpreadController {
                 .build();
     }
 
-    @PutMapping
-    public ResponseVO 받기() {
+    @PutMapping("/{token}")
+    public ResponseVO gave(@RequestHeader(value = SpreadCode.X_USER_ID) Long userId,
+                           @RequestHeader(value = SpreadCode.X_ROOM_ID) String roomId,
+                           @PathVariable String token) {
+
+        Spread spread = spreadService.findByRoomIdAndToken(roomId, token);
+
+        Long spreadId = spread.getId();
+        boolean gave = spreadDetailService.existsByIdAndUserIdGaveTrue(spreadId, userId);
+
+        if (gave) {
+            throw new HttpForbiddenException();
+        }
+
+        spreadDetailService.gaveMoney(spreadId, userId);
+
         return ResponseVO.builder().code("200").build();
     }
 

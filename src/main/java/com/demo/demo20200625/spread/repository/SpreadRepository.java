@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface SpreadRepository extends JpaRepository<Spread, String> {
+public interface SpreadRepository extends JpaRepository<Spread, Long> {
 
     Optional<Spread> findByRoomIdAndToken(String roomId, String token);
+
 }
