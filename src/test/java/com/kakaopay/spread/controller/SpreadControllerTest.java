@@ -209,7 +209,7 @@ class SpreadControllerTest {
     @Test
     public void 받기_10분지난경우() throws Exception {
 
-        mockMvc.perform(put(String.format("/kakaopay/spread/%s", "J63") )
+        mockMvc.perform(put(String.format("/kakaopay/spread/%s", "J63"))
                 .header(SpreadCode.X_USER_ID, 9999)
                 .header(SpreadCode.X_ROOM_ID, "room-1000-02")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -269,4 +269,5 @@ class SpreadControllerTest {
                 .andReturn();
 
     }
+
 }

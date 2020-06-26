@@ -1,18 +1,18 @@
 
 
-##
+## 조회
 GET localhost:8080/kakaopay/spread/DT7
 Content-Type: application/json
 X-USER-ID: 1004
 X-ROOM-ID: room-1000-02
 
-###
+### 받기
 PUT localhost:8080/kakaopay/spread/43L
 Content-Type: application/json
 X-USER-ID: 2344
 X-ROOM-ID: room-486-02
 
-###
+### 뿌리기
 POST localhost:8080/kakaopay/spread
 Content-Type: application/json
 X-USER-ID: 1004
@@ -24,24 +24,4 @@ X-ROOM-ID: room-1000-02
 }
 
 ###
-POST localhost:8080/kakaopay/spread
-Content-Type: application/json
-X-USER-ID: 486
-X-ROOM-ID: room-486-02
 
-{
-  "money": "9999",
-  "count": "100"
-}
-
-###
-6Gb e96 9E6 J3D
-{
-  "timestamp": "2020-06-26T12:46:45.650+00:00",
-  "status": 403,
-  "error": "Forbidden",
-  "message": "",
-  "path": "/kakaopay/spread/kJ8"
-}
-
-###
