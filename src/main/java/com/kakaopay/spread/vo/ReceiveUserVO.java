@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class GaveUserVO {
+public class ReceiveUserVO {
 
     private Long userId;
     private int money;

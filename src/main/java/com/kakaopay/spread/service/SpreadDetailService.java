@@ -3,7 +3,7 @@ package com.kakaopay.spread.service;
 import com.kakaopay.spread.entity.SpreadDetail;
 import com.kakaopay.spread.exception.HttpNotFoundException;
 import com.kakaopay.spread.repository.SpreadDetailRepository;
-import com.kakaopay.spread.vo.GaveUserVO;
+import com.kakaopay.spread.vo.ReceiveUserVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,31 +19,31 @@ public class SpreadDetailService {
 
     private final SpreadDetailRepository spreadDetailRepository;
 
-    public List<GaveUserVO> findGaveUsers(Long spreadId) {
-        List<SpreadDetail> spreadDetails = spreadDetailRepository.findBySpreadIdAndGaveTrue(spreadId);
-        List<GaveUserVO> gaveUsers = new ArrayList<>();
+    public List<ReceiveUserVO> findReceiveUsers(Long spreadId) {
+        List<SpreadDetail> spreadDetails = spreadDetailRepository.findBySpreadIdAndReceiveTrue(spreadId);
+        List<ReceiveUserVO> gaveUsers = new ArrayList<>();
 
         spreadDetails.forEach(row -> {
 
-            GaveUserVO gaveUserVO = GaveUserVO.builder()
+            ReceiveUserVO receiveUserVO = ReceiveUserVO.builder()
                     .userId(row.getUserId())
                     .money(row.getMoney())
                     .build();
 
-            gaveUsers.add(gaveUserVO);
+            gaveUsers.add(receiveUserVO);
 
         });
 
         return gaveUsers;
     }
 
-    public int gaveMoney(Long spreadId, Long userId) {
+    public int giveMoney(Long spreadId, Long userId) {
 
-        SpreadDetail spreadDetail = spreadDetailRepository.getGaveTarget(spreadId, userId)
+        SpreadDetail spreadDetail = spreadDetailRepository.getReceiveTarget(spreadId, userId)
                 .orElseThrow(HttpNotFoundException::new);
 
         spreadDetail.setUserId(userId);
-        spreadDetail.setGave(true);
+        spreadDetail.setReceive(true);
         spreadDetail.setGaveDate(LocalDateTime.now());
 
         spreadDetailRepository.save(spreadDetail);
@@ -51,7 +51,7 @@ public class SpreadDetailService {
         return spreadDetail.getMoney();
     }
 
-    public boolean existsByIdAndUserIdGaveTrue(Long spreadId, Long userId) {
-        return spreadDetailRepository.existsBySpreadIdAndUserIdAndGaveTrue(spreadId, userId);
+    public boolean existsByIdAndUserIdReceiveTrue(Long spreadId, Long userId) {
+        return spreadDetailRepository.existsBySpreadIdAndUserIdAndReceiveTrue(spreadId, userId);
     }
 }

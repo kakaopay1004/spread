@@ -6,8 +6,8 @@ import com.kakaopay.spread.exception.HttpForbiddenException;
 import com.kakaopay.spread.exception.HttpUnauthorizedException;
 import com.kakaopay.spread.service.SpreadDetailService;
 import com.kakaopay.spread.service.SpreadService;
-import com.kakaopay.spread.vo.GaveResponseVO;
-import com.kakaopay.spread.vo.GaveUserVO;
+import com.kakaopay.spread.vo.ReceiveResponseVO;
+import com.kakaopay.spread.vo.ReceiveUserVO;
 import com.kakaopay.spread.vo.SpreadCreateRequestVO;
 import com.kakaopay.spread.vo.SpreadCreateResponseVO;
 import com.kakaopay.spread.vo.SpreadSearchResponseVO;
@@ -52,15 +52,15 @@ public class SpreadController {
             throw new HttpUnauthorizedException();
         }
 
-        List<GaveUserVO> list = spreadDetailService.findGaveUsers(spread.getId());
-        int giveMoney = list.stream().mapToInt(GaveUserVO::getMoney).sum();
+        List<ReceiveUserVO> receiveUsers = spreadDetailService.findReceiveUsers(spread.getId());
+        int giveMoney = receiveUsers.stream().mapToInt(ReceiveUserVO::getMoney).sum();
         String spreadDate = spread.getCreateDate().format(DateTimeFormatter.ofPattern(SpreadCode.DATETIME_FORMAT));
 
         return SpreadSearchResponseVO.builder()
                 .spreadDate(spreadDate)
                 .money(spread.getMoney())
                 .giveMoney(giveMoney)
-                .receivedUsers(list)
+                .receivedUsers(receiveUsers)
                 .build();
     }
 
@@ -84,9 +84,9 @@ public class SpreadController {
     }
 
     @PutMapping("/{token}")
-    public GaveResponseVO gave(@RequestHeader(value = SpreadCode.X_USER_ID) Long userId,
-                               @RequestHeader(value = SpreadCode.X_ROOM_ID) String roomId,
-                               @PathVariable String token) {
+    public ReceiveResponseVO give(@RequestHeader(value = SpreadCode.X_USER_ID) Long userId,
+                                  @RequestHeader(value = SpreadCode.X_ROOM_ID) String roomId,
+                                  @PathVariable String token) {
 
         Spread spread = spreadService.findByRoomIdAndToken(roomId, token);
 
@@ -95,15 +95,15 @@ public class SpreadController {
         }
 
         Long spreadId = spread.getId();
-        boolean gave = spreadDetailService.existsByIdAndUserIdGaveTrue(spreadId, userId);
+        boolean receive = spreadDetailService.existsByIdAndUserIdReceiveTrue(spreadId, userId);
 
-        if (gave) {
+        if (receive) {
             throw new HttpForbiddenException();
         }
 
-        int money = spreadDetailService.gaveMoney(spreadId, userId);
+        int money = spreadDetailService.giveMoney(spreadId, userId);
 
-        return GaveResponseVO
+        return ReceiveResponseVO
                 .builder()
                 .money(money)
                 .build();

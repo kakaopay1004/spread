@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class GaveResponseVO {
+public class ReceiveResponseVO {
 
     private int money;
 

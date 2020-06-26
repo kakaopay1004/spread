@@ -35,7 +35,7 @@ public class SpreadDetail {
 
     private int money;
 
-    private boolean gave;
+    private boolean receive;
 
     private LocalDateTime gaveDate;
 

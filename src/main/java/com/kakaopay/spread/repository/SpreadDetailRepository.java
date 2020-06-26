@@ -17,10 +17,10 @@ public interface SpreadDetailRepository extends JpaRepository<SpreadDetail, Long
             + " WHERE s.id = ?1 AND NVL(d.user_id, 0) <> ?2 "
             + "   AND d.gave = false "
             + " ORDER BY rand() LIMIT 1  ", nativeQuery = true)
-    Optional<SpreadDetail> getGaveTarget(Long spreadId, Long userId);
+    Optional<SpreadDetail> getReceiveTarget(Long spreadId, Long userId);
 
-    List<SpreadDetail> findBySpreadIdAndGaveTrue(Long spreadId);
+    List<SpreadDetail> findBySpreadIdAndReceiveTrue(Long spreadId);
 
-    boolean existsBySpreadIdAndUserIdAndGaveTrue(Long spreadId, Long userId);
+    boolean existsBySpreadIdAndUserIdAndReceiveTrue(Long spreadId, Long userId);
 
 }

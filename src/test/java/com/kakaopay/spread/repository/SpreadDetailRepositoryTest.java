@@ -12,11 +12,11 @@ class SpreadDetailRepositoryTest {
 
     @Test
     void testGetGaveTarget() {
-        spreadDetailRepository.getGaveTarget( 1L, 2000L);
+        spreadDetailRepository.getReceiveTarget( 1L, 2000L);
     }
 
     @Test
     void testExistsByIdAndUserIdAndGaveTrue() {
-        spreadDetailRepository.existsBySpreadIdAndUserIdAndGaveTrue(1L, 2999L);
+        spreadDetailRepository.existsBySpreadIdAndUserIdAndReceiveTrue(1L, 2999L);
     }
 }

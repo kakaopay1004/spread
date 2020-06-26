@@ -19,6 +19,6 @@ public class SpreadSearchResponseVO {
 
     private int giveMoney;
 
-    private List<GaveUserVO> receivedUsers;
+    private List<ReceiveUserVO> receivedUsers;
 
 }
