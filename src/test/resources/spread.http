@@ -24,4 +24,15 @@ X-ROOM-ID: room-1000-02
 }
 
 ###
+GET localhost:8080/kakaopay/spread/d3d
+Content-Type: application/json
+X-USER-ID: 1004
+X-ROOM-ID: room-1000-02
+
+{
+  "money": "20000",
+  "count": "2"
+}
+
+###
 

@@ -82,7 +82,7 @@ public class SpreadController {
             @ApiResponse(code=200, message = "성공"),
             @ApiResponse(code=400, message = "잘못된 형식의 요청"),
             @ApiResponse(code=401, message = "권한 없음"),
-            @ApiResponse(code=406, message = "헤더 또는 내용이 서버에서 받아들일 수 없는 요청")
+            @ApiResponse(code=406, message = "조회 권한 없는 사용자의 요청")
     })
     @GetMapping("/{token}")
     public SpreadSearchResponseVO search(@RequestHeader(value = SpreadCode.X_USER_ID) Long userId,
