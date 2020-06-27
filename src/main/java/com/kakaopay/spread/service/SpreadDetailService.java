@@ -2,15 +2,15 @@ package com.kakaopay.spread.service;
 
 import com.kakaopay.spread.entity.SpreadDetail;
 import com.kakaopay.spread.repository.SpreadDetailRepository;
-import com.kakaopay.spread.vo.ReceiveUserVO;
+import com.kakaopay.spread.vo.ReceiveUserResponseVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -19,22 +19,14 @@ public class SpreadDetailService {
 
     private final SpreadDetailRepository spreadDetailRepository;
 
-    public List<ReceiveUserVO> findReceiveUsers(Long spreadId) {
+    public List<ReceiveUserResponseVO> findReceiveUsers(Long spreadId) {
         List<SpreadDetail> spreadDetails = spreadDetailRepository.findBySpreadIdAndReceiveTrue(spreadId);
-        List<ReceiveUserVO> gaveUsers = new ArrayList<>();
+        List<ReceiveUserResponseVO> receiveUsers = spreadDetails.stream().map(row -> ReceiveUserResponseVO.builder()
+                .userId(row.getUserId())
+                .money(row.getMoney())
+                .build()).collect(Collectors.toList());
 
-        spreadDetails.forEach(row -> {
-
-            ReceiveUserVO receiveUserVO = ReceiveUserVO.builder()
-                    .userId(row.getUserId())
-                    .money(row.getMoney())
-                    .build();
-
-            gaveUsers.add(receiveUserVO);
-
-        });
-
-        return gaveUsers;
+        return receiveUsers;
     }
 
     public int giveMoney(Long spreadId, Long userId) {

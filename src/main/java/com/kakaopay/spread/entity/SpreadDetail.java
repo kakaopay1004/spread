@@ -1,14 +1,12 @@
 package com.kakaopay.spread.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,10 +20,10 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
 @Table(indexes = {@Index(columnList = "user_id"), @Index(columnList = "spread_id")},
         uniqueConstraints = {@UniqueConstraint(columnNames = {"spread_id", "user_id"})})
-public class SpreadDetail {
+public class SpreadDetail extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,10 +44,9 @@ public class SpreadDetail {
 
     private LocalDateTime receiveDate;
 
-    @CreatedDate
-    private LocalDateTime createDate;
-
-    @LastModifiedDate
-    private LocalDateTime modifiedDate;
+    @Builder
+    public SpreadDetail(Spread spread) {
+        this.spread = spread;
+    }
 
 }

@@ -23,7 +23,9 @@ public class SpreadService {
         List<SpreadDetail> spreadDetails = spread.getSpreadDetails();
 
         for (int i = 0; i < spread.getCount(); i++) {
-            SpreadDetail spreadDetail = new SpreadDetail();
+            SpreadDetail spreadDetail = SpreadDetail.builder()
+                    .spread(spread)
+                    .build();
 
             if (spreadMoney != 0) {
 
@@ -33,7 +35,6 @@ public class SpreadService {
 
             }
 
-            spreadDetail.setSpread(spread);
             spreadDetails.add(spreadDetail);
         }
 

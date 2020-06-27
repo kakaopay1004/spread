@@ -6,7 +6,8 @@ spring:
     console:
       enabled: true
   datasource:
-    url: jdbc:h2:~/kakaopaydb
+#    url: jdbc:h2:~/kakaopaydb
+    url: jdbc:h2:file:./src/main/resources/kakaopaydb
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
@@ -19,6 +20,8 @@ spring:
 
 logging:
   level:
+    com:
+      kakaopay: debug
     org:
       hibernate:
         type: trace
