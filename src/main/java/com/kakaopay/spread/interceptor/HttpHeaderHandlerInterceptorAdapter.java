@@ -16,10 +16,12 @@ public class HttpHeaderHandlerInterceptorAdapter extends HandlerInterceptorAdapt
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
         if (StringUtils.isBlank(request.getHeader(SpreadCode.X_ROOM_ID))) {
+            log.warn("header X-ROOM-ID empty");
             throw new HttpUnauthorizedException();
         }
 
         if (StringUtils.isBlank(request.getHeader(SpreadCode.X_USER_ID))) {
+            log.warn("header X-USER-ID empty");
             throw new HttpUnauthorizedException();
         }
 
